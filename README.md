@@ -58,15 +58,36 @@ To undo the last migration:
 npx sequelize db:migrate:undo
 ```
 
+### Docker Services
+
+To start RabbitMQ and Redis using Docker Compose:
+
+```bash
+docker-compose up -d
+```
+
+Make sure your `.env` is configured to match the Docker service names if running your app in Docker.
+
 ### Running the Application
+Run each one of them in a separate terminal
+
+```bash
+npm worker
+```
 
 ```bash
 npm start
 ```
-If you want to run server on auto restart mode when you make any changes
+If you want to run server on auto restart mode when you make any changes run this instead 
+of npm start
 ```bash
 npm run dev 
 ```
+
+## API Documentation
+
+Full API documentation (with example requests and responses) is available here:  
+[View in Postman](https://documenter.getpostman.com/view/21578024/2sB2x2LunG)
 
 ## Contribution Workflow
 

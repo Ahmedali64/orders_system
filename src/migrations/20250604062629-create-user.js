@@ -35,13 +35,25 @@ module.exports = {
         allowNull:false,
         defaultValue:false
       },
+      email_verification_token: {
+        type: Sequelize.STRING,
+        allowNull:true,
+        defaultValue:null
+      },
+      email_verification_expires: {
+        type: Sequelize.DATE,
+        allowNull:true,
+        defaultValue:null
+      }, 
       password_reset_token: {
         type: Sequelize.STRING,
-        allowNull:true
+        allowNull:true,
+        defaultValue:null
       },
       password_reset_expires: {
         type: Sequelize.DATE,
-        allowNull:true
+        allowNull:true,
+        defaultValue:null
       }, 
       createdAt: {
         allowNull: false,

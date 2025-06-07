@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+    rabbitmq:
+        image: rabbitmq:4.1-management
+        container_name: rabbitmq
+        ports:
+            - "5672:5672"       # For apps to connect (AMQP)
+            - "15672:15672"     # For the Management UI (HTTP)
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    redis:
+        image: redis:7
+        container_name: redis_db
+        ports:
+        - "6379:6379"
