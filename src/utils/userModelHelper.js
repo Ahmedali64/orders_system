@@ -36,8 +36,7 @@ const user = {
             return user;
         }        
         const user = await User.findOne({where:{password_reset_token: tok}});
-        if(!user) return null;
-        if((user.password_reset_expires < new Date())) return null;
+        if( !user || (user.password_reset_expires < new Date()) ) return null;
         return user;
     },
     async findUserById (ID){

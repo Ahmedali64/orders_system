@@ -2,6 +2,8 @@ require("dotenv/config");
 const express = require("express")
 const helmet = require("helmet");
 const authRoutes = require("./src/routes/authRoutes");
+const itemRoutes = require("./src/routes/itemRoutes");
+
 const Redis = require("ioredis");
 const { RedisStore } = require("connect-redis");
 const session = require("express-session");
@@ -46,7 +48,7 @@ app.use(
 
 //routes
 app.use("/auth", authRoutes);
-
+app.use("/item" , itemRoutes);
 
 
 const port = process.env.PORT;

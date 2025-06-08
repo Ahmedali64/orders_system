@@ -79,7 +79,7 @@ npm worker
 npm start
 ```
 If you want to run server on auto restart mode when you make any changes run this instead 
-of npm start
+of `npm start`
 ```bash
 npm run dev 
 ```

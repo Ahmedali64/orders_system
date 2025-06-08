@@ -2,7 +2,7 @@ const joi = require("joi");
 
 const registerValidation = joi.object({
     firstName: joi.string()
-    .min(3)
+    .min(2)
     .max(10)
     .pattern(/^[a-zA-Z\s-]+$/)
     .trim()
@@ -50,4 +50,27 @@ const loginValidation = joi.object( {
     email: joi.string().email().trim().required(),
     password: joi.string().min(8).trim().required(),
 });
-module.exports = { registerValidation , loginValidation };
+
+const itemValidation = joi.object({
+  name: joi.string().min(2).max(50).required(),
+  description: joi.string().min(5).max(255).required(),
+  price: joi.number().positive().required(),
+  category: joi.string().valid("food", "beverages", "others").required(),
+  expiryDate: joi.date().greater("now").required(),
+  stockQuantity: joi.number().integer().min(0).required(),
+});
+const itemUpdateValidation = joi.object({
+  name: joi.string().min(2).max(50),
+  description: joi.string().min(5).max(255),
+  price: joi.number().positive(),
+  category: joi.string().valid("food", "beverages", "others"),
+  expiryDate: joi.date().greater("now"),
+  stockQuantity: joi.number().integer().min(0),
+});
+const filterValidation = joi.object({
+  category: joi.string().valid("food", "beverages", "others"),
+  sortBy: joi.string().valid("name", "price", "expiry_date", "total_stock_value"),
+  order: joi.string().valid("asc", "desc")
+});
+
+module.exports = { registerValidation , loginValidation , itemValidation ,itemUpdateValidation ,filterValidation };

@@ -256,7 +256,7 @@ const refreshToken = async( req , res ) => {
         const { accessToken:newAccessToken, refreshToken:newRefreshToken } = await generateTokens(userData);
         res.status(200).json({ message:"Your new tokens", newAccessToken, newRefreshToken });
     } catch (err) {
-        res.status(401).json({ message: "Invalid ref token" });
+        res.status(401).json({ message: "Invalid ref token" , error: err.message });
     }
 };
 
