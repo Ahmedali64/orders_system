@@ -39,6 +39,10 @@ npm install
 * Create a `.env` file in the root directory and configure your database settings.
 * You can use `.env.example` as a reference 
 
+## Database ERD
+
+![ERD Diagram](docs/ERD.png)
+
 ### Database Migration
 
 Before running the application, apply all database migrations:
