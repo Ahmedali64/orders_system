@@ -6,6 +6,7 @@ module.exports = {
     // Items table
     await queryInterface.addIndex('Items', ['expiry_date']);
     await queryInterface.addIndex('Items', ['category']);
+    await queryInterface.addIndex('Items', ['price']);
 
     // Orders table
     await queryInterface.addIndex('Orders', ['status']);
@@ -23,10 +24,11 @@ module.exports = {
 
     // Users table (email is already unique by schema)
   },
-
+price
   async down(queryInterface, Sequelize) {
     await queryInterface.removeIndex('Items', ['expiry_date']);
     await queryInterface.removeIndex('Items', ['category']);
+    await queryInterface.removeIndex('Items', ['price']);
     await queryInterface.removeIndex('Orders', ['status']);
     await queryInterface.removeIndex('Orders', ['cashier_id']);
     await queryInterface.removeIndex('Orders', ['waiter_id']);
