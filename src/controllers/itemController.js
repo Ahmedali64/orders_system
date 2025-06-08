@@ -1,6 +1,3 @@
-//so we should CRUD items ADMIN MANAGER
-//DB (id , name  , description , category , expiry_date ,stock_quantity)
-
 const item = require("../utils/itemModelHelper");
 
 const addItems = async ( req , res ) => {

@@ -49,7 +49,13 @@ npx sequelize db:create
 ```
 
 ```bash
-npx sequelize db:migrate
+npx sequelize db:migrate:all
+```
+
+If you want to add some items to your database for testing run this 
+
+```bash
+npx sequelize db:seed:all
 ```
 
 To undo the last migration:
