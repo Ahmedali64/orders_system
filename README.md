@@ -80,11 +80,6 @@ Make sure your `.env` is configured to match the Docker service names if running
 
 ### Running the Application
 Run each one of them in a separate terminal
-
-```bash
-npm worker
-```
-
 ```bash
 npm start
 ```
@@ -93,6 +88,13 @@ of `npm start`
 ```bash
 npm run dev 
 ```
+
+Then Run workers and node-corn service
+
+```bash
+pm2 start .\src\services\ecosystem.config.js
+```
+
 
 ## API Documentation
 

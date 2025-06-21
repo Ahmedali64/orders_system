@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th, td {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+      }
+      th {
+        background-color: #f4f4f4;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>{{subject}}</h2>
+    <p>The following items are about to expire:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Expiry Date</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each items}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{formattedDate expiry_date}}</td>
+            <td>{{stock_quantity}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <p>Regards,<br/>Inventory System</p>
+  </body>
+</html>

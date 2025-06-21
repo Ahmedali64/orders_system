@@ -63,7 +63,18 @@ module.exports = {
         stock_quantity: 10,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        name: 'Bread',
+        description: 'Fresh bakery bread expiring today.',
+        price: 2.0,
+        category: 'food',
+        expiry_date: new Date(), // TODAY
+        stock_quantity: 15,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
+
     ], {});
   },
 

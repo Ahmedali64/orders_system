@@ -36,7 +36,7 @@ const register = async ( req , res ) => {
         //make a url to redirect him to email verification endpoint 
         const verifyUrl = `http://localhost:${process.env.PORT}/auth/verify-email?token=${token}`;
         //add email to the queue and we gonna make a worker to send emails auto 
-        publishToQueue({
+        publishToQueue("verifyQueue",{
             type: 'VERIFY_EMAIL',//FOR THE WORKER
             to: finalUser.email,
             verifyUrl
@@ -71,7 +71,7 @@ const resendVerificationEmail = async ( req , res ) => {
         await userFound.save();
 
         const verifyUrl = `http://localhost:${process.env.PORT}/auth/verify-email?token=${token}`;
-        publishToQueue({
+        publishToQueue("verifyQueue",{
             type: 'VERIFY_EMAIL',
             to: userFound.email,
             verifyUrl
@@ -125,7 +125,7 @@ const forgotPassword = async ( req , res ) => {
         // Send email
         const resetUrl = `http://localhost:${process.env.PORT}/reset-password?token=${token}`;
 
-        publishToQueue({
+        publishToQueue("resetQueue",{
             type: "RESET_PASSWORD",
             to: email,
             resetUrl

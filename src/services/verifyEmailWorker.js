@@ -1,26 +1,27 @@
 const amqp = require('amqplib');
-const { sendEmailVerification , sendResetPasswordEmail } = require("../services/emailService");
+const { sendEmailVerification } = require("./emailService");
 require("dotenv/config")
 
 async function startWorker() {
     const connection = await amqp.connect(process.env.RABBITMQ_URL);
     const channel = await connection.createChannel();
-    
+    //This ensures each worker only processes one message at a time, preventing overload and improving reliability for all your queues.
+    channel.prefetch(1);
     // Declare the dead-letter queue
-    await channel.assertQueue("email_dead_letter_queue");
+    await channel.assertQueue("verify_dead_letter_queue");
 
     // Declare the main queue with DLQ settings
-    await channel.assertQueue("email_queue", {
+    await channel.assertQueue("verifyQueue", {
         arguments: {
             "x-dead-letter-exchange": "", // default exchange
-            "x-dead-letter-routing-key": "email_dead_letter_queue"
+            "x-dead-letter-routing-key": "verify_dead_letter_queue"
         }
     });
+    console.log("Worker listening on verifyQueue.");
 
 
-    
-    console.log("Worker listening on email_queue.");
-    channel.consume("email_queue", async (msg) => {
+
+    channel.consume("verifyQueue", async (msg) => {
     if (!msg) return;
 
     const data = JSON.parse(msg.content.toString());
@@ -29,20 +30,18 @@ async function startWorker() {
       channel.nack(msg, false, false);
       return;
     }
+    
     try {
         if (data.type === "VERIFY_EMAIL") {
             console.log("Sending verification email to:", data.to );
             await sendEmailVerification(data.to, data.verifyUrl);
-        } else if (data.type === "RESET_PASSWORD") {
-          console.log("Sending reset password email to:", data.to );
-          await sendResetPasswordEmail(data.to, data.resetUrl);
-        }
+        } 
         channel.ack(msg); // mark job as done
     } catch (err) {
-        console.error("Error processing message:", err);
+        console.error("Error while sending verification email:", err);
         // Send failed jobs to DLQ
         channel.nack(msg, false, false);
-  }
+    }
     });
 }
 

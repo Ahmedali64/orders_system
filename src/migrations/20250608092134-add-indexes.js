@@ -24,7 +24,6 @@ module.exports = {
 
     // Users table (email is already unique by schema)
   },
-price
   async down(queryInterface, Sequelize) {
     await queryInterface.removeIndex('Items', ['expiry_date']);
     await queryInterface.removeIndex('Items', ['category']);

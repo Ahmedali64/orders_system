@@ -1,12 +1,22 @@
 const nodemailer = require("nodemailer");
 const path = require('path');
 require('dotenv').config();
-
 //config auth + hbs 
 async function setupTransporter() {
     // because this framework is made with ESmodel and it is exported as defult, this is how we use it directly 
     // we are using this to config hbs file 
     const nodemailerExpressHandlebars = (await import('nodemailer-express-handlebars')).default;
+//    Handlebars has no built-in formattedDate. It only knows what you tell it. So when it tried to render that template, it crashed because formattedDate was never registered.
+    const hbsHelpers = {
+        formattedDate: function (dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+        },
+    };
 
     //config you should return this at the end 
     const transporter = nodemailer.createTransport({
@@ -22,6 +32,7 @@ async function setupTransporter() {
             extname: '.hbs',
             layoutsDir: path.join(__dirname, '../emails'),
             defaultLayout: '',
+            helpers: hbsHelpers
         },
         viewPath: path.join(__dirname, '../emails'),
         extName: '.hbs'
@@ -29,7 +40,6 @@ async function setupTransporter() {
 
     return transporter;
 };
-
 async function sendEmailVerification (to, verifyUrl) {
   const transporter = await setupTransporter();
   return transporter.sendMail({
@@ -40,11 +50,9 @@ async function sendEmailVerification (to, verifyUrl) {
     context: { verifyUrl }
   });
 }
-
 async function sendResetPasswordEmail (to , resetUrl) {
     //make instance with our config (auth + hbs)
     const transporter = await setupTransporter();
-    console.log(to , resetUrl)
     return  transporter.sendMail({
         from: process.env.EMAIL_USER,
         to,
@@ -54,5 +62,28 @@ async function sendResetPasswordEmail (to , resetUrl) {
 
     })
 }
+async function sendExpiryNotification(to, items, type) {
+    // Compose subject and body based on type
+    const transporter = await setupTransporter();
+    const subject = type === "EXPIRY_WARNING"
+        ? "Items Expiring in 5 Days"
+        : "Items Expiring Today";
+    const itemList = items.map(i => 
+        `- ${i.name} (Qty: ${i.stock_quantity}, Expires: ${i.expiry_date})`
+    ).join('\n');
+    const text = `The following items are expiring:\n\n${itemList}`;
 
-module.exports = { sendEmailVerification, sendResetPasswordEmail }
+    // Send email (use your transporter config)
+    return transporter.sendMail({
+        to,
+        subject,
+        template: "expiryNotification",
+        context: {
+            subject,
+            items
+        },
+        text
+    });
+}
+
+module.exports = { sendEmailVerification, sendResetPasswordEmail , sendExpiryNotification }
