@@ -3,14 +3,14 @@ const db = require("../models/index");
 const { Op } = require("sequelize");
 const { publishToQueue ,connectToRabbitMQ } = require("../config/rabbitmq");
 const { User , Item } = db;
-//8AM 0 8 * * *
+
 connectToRabbitMQ().then(() => {
   console.log("RabbitMQ is ready");
 }).catch((error) => {
   console.error("Failed to initialize RabbitMQ:", error);
   process.exit(1);
 });
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 8 * * *", async () => {
   try {
     console.log("📅 Cron scheduler started.");
     const now = new Date();
