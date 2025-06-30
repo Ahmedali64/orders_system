@@ -39,11 +39,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.ENUM("pending","complete","expired"),
-        allowNull:false
+        allowNull:false,
+        defaultValue:"pending"
       },
       total_cost: {
         type: DataTypes.FLOAT,
-        allowNull:false
+        allowNull:false,
+        defaultValue:0
       }
   }, {
     sequelize,

@@ -12,7 +12,7 @@ connectToRabbitMQ().then(() => {
 });
 cron.schedule("0 8 * * *", async () => {
   try {
-    console.log("📅 Cron scheduler started.");
+    console.log("Cron scheduler started.");
     const now = new Date();
     const fiveDays = new Date();
     fiveDays.setDate(now.getDate() + 5);

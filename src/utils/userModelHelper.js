@@ -48,6 +48,12 @@ const user = {
         if(!userData) return null;
         
         return userData.toJSON();
+    },
+    async getUsersByRole(role){
+        return await db.User.findAll({ 
+            where: { role },
+            attributes: ["id","first_name","last_name","email","role","email_verified"] 
+        });
     }
 
 };

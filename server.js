@@ -3,7 +3,7 @@ const express = require("express")
 const helmet = require("helmet");
 const authRoutes = require("./src/routes/authRoutes");
 const itemRoutes = require("./src/routes/itemRoutes");
-
+const orderRoutes = require("./src/routes/orderRoutes");
 const Redis = require("ioredis");
 const { RedisStore } = require("connect-redis");
 const session = require("express-session");
@@ -49,7 +49,7 @@ app.use(
 //routes
 app.use("/auth", authRoutes);
 app.use("/item" , itemRoutes);
-
+app.use("/order", orderRoutes);
 
 const port = process.env.PORT;
 app.listen(port ,()=>{
